@@ -31,8 +31,14 @@ const Login = () => {
             console.log("Response Data:", data);  // Debugging step
     
             sessionStorage.setItem('userid',data.details._id)
-    
-            navigate('/profile');  // Ensure this line executes
+            sessionStorage.setItem('token',data.token);
+            sessionStorage.setItem('isAdmin',data.details.isAdmin)
+
+            if(data.details.isAdmin) {
+                navigate('/hotel-list');
+            } else {
+                navigate('/home');
+            }
         } catch (error) {
             console.error('Error:', error);
             setError(error.message);  // Display error on UI

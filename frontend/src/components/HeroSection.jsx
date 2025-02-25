@@ -39,13 +39,13 @@ export default function MainPage() {
         transition={{ delay: 1, duration: 0.5 }}
       >
         <button 
-          onClick={() => navigate("/signin")}
+          onClick={() => navigate("/login")}
           className="px-6 py-3 text-lg bg-white text-blue-600 rounded-xl shadow-lg hover:bg-gray-200"
         >
           Sign In
         </button>
         <button 
-          onClick={() => navigate("/register")}
+          onClick={() => navigate("/signup")}
           className="px-6 py-3 text-lg bg-sky-600 text-white rounded-xl shadow-lg hover:bg-sky-400"
         >
           Register

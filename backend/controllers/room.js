@@ -52,7 +52,7 @@ export const getRoom = async (req, res, next) => {
 
 // 📌 Get All Rooms with Filters, Search, and Sorting
 export const getRooms = async (req, res, next) => {
-  const { min, max, discount, maxPeople, page = 1, limit = 10, sortBy = "price", order = "asc" } = req.query;
+  const { min, max, discount, maxPeople, page = 1, limit = 100, sortBy = "price", order = "asc" } = req.query;
 
   try {
     const filters = {};
