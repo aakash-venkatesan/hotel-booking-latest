@@ -1,64 +1,121 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-const hotelsData = [
-  { id: 1, name: "Hotel Marigold", location: "New Delhi / NCR", price: 902, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.5, reviews: 120 },
-  { id: 2, name: "Sunrise Ecostay", location: "Goa", price: 1197, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.7, reviews: 95 },
-  { id: 2, name: "Sunrise Ecostay", location: "Goa", price: 1197, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.7, reviews: 95 },
-  { id: 2, name: "Sunrise Ecostay", location: "Goa", price: 1197, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.7, reviews: 95 },
-  { id: 2, name: "Sunrise Ecostay", location: "Goa", price: 1197, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.7, reviews: 95 },
-  { id: 2, name: "Sunrise Ecostay", location: "Goa", price: 1197, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.7, reviews: 95 },
-  { id: 2, name: "Sunrise Ecostay", location: "Goa", price: 1197, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.7, reviews: 95 },
-  { id: 3, name: "Grand Imperial", location: "Mumbai", price: 539, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.3, reviews: 80 },
-  { id: 4, name: "Bangalore Palace Hotel", location: "Bangalore", price: 899, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.6, reviews: 110 },
-  { id: 5, name: "Sea View Resort", location: "Chennai", price: 765, image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&auto=format&fit=crop&q=60", rating: 4.4, reviews: 70 }
-];
+const API_BASE_URL = "http://localhost:5000/api/hotels/";
+// const ACCESS_TOKEN = "your-access-token-here";
 
 function SearchResults() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const searchQuery = params.get("query");
-
-  const [filteredHotels, setFilteredHotels] = useState([]);
-  const navigate = useNavigate();  // Using useNavigate to programmatically navigate
+  const searchCity = params.get("city") || "all"; // Get city from query params
+  const [sortBy, setSortBy] = useState("cheapestPrice"); // Default sorting by price
+  const [order, setOrder] = useState("asc"); // Default order is ascending
+  const [minPrice, setMinPrice] = useState(""); // Min price filter
+  const [maxPrice, setMaxPrice] = useState(""); // Max price filter
+  const [hotels, setHotels] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const results = hotelsData.filter((hotel) => hotel.location.toLowerCase() === searchQuery.toLowerCase());
-    setFilteredHotels(results);
-  }, [searchQuery]);
+    fetchHotels(searchCity, sortBy, order, minPrice, maxPrice);
+  }, [searchCity, sortBy, order, minPrice, maxPrice]);
 
+  // Fetch hotels based on filters
+  const fetchHotels = async (city, sortBy, order, min, max) => {
+    try {
+      const queryParams = { sortBy, order, limit: 50 };
+      if (city !== "all") queryParams.city = city;
+      if (min) queryParams.min = min;
+      if (max) queryParams.max = max;
+
+      const response = await axios.get(API_BASE_URL, {
+        params: queryParams,
+        // headers: { Authorization: `Bearer ${ACCESS_TOKEN}` },
+      });
+
+      setHotels(response.data);
+    } catch (error) {
+      console.error("Error fetching hotels:", error);
+    }
+  };
+
+  // Toggle sorting order between asc and desc
+  const handleSortByPrice = () => {
+    const newOrder = order === "asc" ? "desc" : "asc";
+    setOrder(newOrder);
+    params.set("order", newOrder);
+    navigate(`?${params.toString()}`);
+  };
+
+  // Handle hotel click (navigate to hotel details)
   const handleHotelClick = (hotelId) => {
-    const newParams = new URLSearchParams(location.search); // Get the current query parameters
-    newParams.set('hotelId', hotelId); // Add the 'hotelId' query parameter (optional)
-  
-    // Use navigate to route to the hotel detail page
-    navigate(`/hotel/${hotelId}?${newParams.toString()}`); // Update the URL with the query params
+    navigate(`/hotel/${hotelId}`);
   };
 
   return (
-    <div className="p-6 w-300 mx-auto">
-      <h1 className="text-xl font-bold mb-4">Search Results for: {searchQuery}</h1>
+    <div className="flex h-screen">
+      {/* Left Pane - Fixed Filters */}
+      <div className="w-1/4 p-6 bg-gray-100 border-r border-gray-300 h-full sticky top-0">
+        <h2 className="text-xl font-bold mb-4">Filters</h2>
 
-    {filteredHotels.length > 0 ? (
-      filteredHotels.map((hotel) => (
-        <div 
-          key={hotel.id} 
-          className="bg-white p-4 shadow-lg rounded-lg border border-gray-300 flex mb-4 cursor-pointer" 
-          onClick={() => handleHotelClick(hotel.id)} // Passing hotel.id
+        {/* Sorting Button */}
+        <button
+          onClick={handleSortByPrice}
+          className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mb-4"
         >
-          <img src={hotel.image} alt={hotel.name} className="w-48 h-32 object-cover text-gray-600 rounded-md" />
-          <div className="ml-4">
-            <h2 className="text-lg text-gray-600 font-semibold">{hotel.name}</h2>
-            <p className="text-gray-600">{hotel.location}</p>
-            <p className="text-lg text-gray-600 font-bold">Rs. {hotel.price}</p>
-            <p className="text-yellow-500 font-semibold">⭐ {hotel.rating} ({hotel.reviews} reviews)</p>
-          </div>
-        </div>
-      ))
-    ) : (
-      <p>No hotels found in {searchQuery}.</p>
-    )}
+          Sort by Price {order === "asc" ? "⬆️" : "⬇️"}
+        </button>
 
+        {/* Price Filters */}
+        <div className="flex flex-col gap-2">
+          <input
+            type="number"
+            placeholder="Min Price"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+            className="border border-gray-400 p-2 rounded w-full text-sm"
+          />
+          <input
+            type="number"
+            placeholder="Max Price"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            className="border border-gray-400 p-2 rounded w-full text-sm"
+          />
+        </div>
+      </div>
+
+      {/* Right Pane - Hotel Results */}
+      <div className="w-3/4 p-6 overflow-y-auto">
+        <h1 className="text-xl font-bold mb-4">Hotels in {searchCity}</h1>
+
+        {hotels.length > 0 ? (
+          hotels.map((hotel) => (
+            <div
+              key={hotel._id}
+              className="bg-white p-4 shadow-lg rounded-lg border border-gray-300 flex mb-4 cursor-pointer"
+              onClick={() => handleHotelClick(hotel._id)}
+            >
+              <img
+                src={hotel.photos?.[0] || "https://via.placeholder.com/150"}
+                alt={hotel.name}
+                className="w-48 h-32 object-cover text-gray-600 rounded-md"
+              />
+              <div className="ml-4">
+                <h2 className="text-lg text-gray-600 font-semibold">{hotel.name}</h2>
+                <p className="text-gray-600">{hotel.address}, {hotel.state}, {hotel.country}</p>
+                <p className="text-lg text-gray-600 font-bold">⭐ {hotel.rating || "N/A"}</p>
+                <p className="text-gray-500 italic">{hotel.title}</p>
+                <p className="text-gray-600">{hotel.description}</p>
+                <p className="text-blue-600 font-semibold">{hotel.offerings?.join(", ")}</p>
+                <p className="text-green-600 font-bold">Price: ${hotel.cheapestPrice}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No hotels found in {searchCity}.</p>
+        )}
+      </div>
     </div>
   );
 }
