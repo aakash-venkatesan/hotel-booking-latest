@@ -15,6 +15,8 @@ import AdminRoute from "./components/AdminRoute";
 import HeroSection from "./components/HeroSection";
 import HotelInfo from "./components/HotelInfo.jsx";
 import HotelBookingPage from "./pages/HotelbookingPage.jsx";
+import HotelDetailsPage from "./pages/HotelDetailsPage.jsx";
+import Checkout from "./components/Checkout.jsx";
 
 function App() {
   return (
@@ -33,11 +35,13 @@ function App() {
           <Route path="/review" element={<ProtectedRoute element={<Review />} />} />
           <Route path="/search-results" element={<ProtectedRoute element={<SearchResults />} />} />
           <Route path="/hotel/:hotelId" element={<ProtectedRoute element={<HotelBookingPage />} />} />
+          <Route path="/checkout/:roomId/:hotelId" element={<ProtectedRoute element={<Checkout />} />} />
  
           {/* Admin-Only Routes */}
           <Route path="/room-manager" element={<AdminRoute element={<RoomManager />} />} />
           <Route path="/hotel" element={<AdminRoute element={<HotelForm />} />} />
           <Route path="/hotel-list" element={<AdminRoute element={<HotelList />} />} />
+          <Route path="/hotel-info/:hotelId" element={<AdminRoute element={<HotelDetailsPage />} />} />
       
         </Routes>
       </FormProvider>

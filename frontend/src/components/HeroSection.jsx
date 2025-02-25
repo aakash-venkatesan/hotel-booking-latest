@@ -8,7 +8,7 @@ export default function MainPage() {
   return (
     <div 
       className="flex flex-col items-center justify-start min-h-screen pt-20 text-white bg-cover bg-center"
-      style={{ backgroundImage: "url('https://wallpapercave.com/wp/wp1846089.jpg')" }}
+      style={{ backgroundImage: "url('https://images.pexels.com/photos/2506988/pexels-photo-2506988.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')" }}
     >
       {/* Title & Icon */}
       <motion.div 
