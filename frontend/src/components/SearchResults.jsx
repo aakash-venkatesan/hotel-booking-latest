@@ -53,70 +53,67 @@ function SearchResults() {
   };
 
   return (
-    <div className="flex h-screen">
-      {/* Left Pane - Fixed Filters */}
-      <div className="w-1/4 p-6 bg-gray-100 border-r border-gray-300 h-full sticky top-0">
-        <h2 className="text-xl font-bold mb-4">Filters</h2>
+    <div className="flex h-screen bg-gray-100">
+      <div className="w-1/4 p-6 bg-white border-r border-gray-300 h-full sticky top-0 shadow-md">
+        <h2 className="text-xl font-bold mb-4 text-gray-700 font-mono">Filters</h2>
 
-        {/* Sorting Button */}
         <button
           onClick={handleSortByPrice}
-          className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mb-4"
+          className="w-full bg-transparent text-blue-700 font-semibold border border-blue-500 hover:bg-blue-500 hover:text-white transition py-2 px-4 rounded-lg font-mono mb-4 cursor-pointer"
         >
           Sort by Price {order === "asc" ? "⬆️" : "⬇️"}
         </button>
 
-        {/* Price Filters */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           <input
             type="number"
             placeholder="Min Price"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
-            className="border border-gray-400 p-2 rounded w-full text-sm"
+            className="border border-gray-400 p-2 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
           />
           <input
             type="number"
             placeholder="Max Price"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
-            className="border border-gray-400 p-2 rounded w-full text-sm"
+            className="border border-gray-400 p-2 rounded-md w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
           />
         </div>
       </div>
 
-      {/* Right Pane - Hotel Results */}
       <div className="w-3/4 p-6 overflow-y-auto">
-        <h1 className="text-xl font-bold mb-4">Hotels in {searchCity}</h1>
+        <h1 className="text-3xl font-bold mb-6 text-gray-700 font-mono text-center">Hotels in {searchCity}</h1>
 
         {hotels.length > 0 ? (
           hotels.map((hotel) => (
             <div
               key={hotel._id}
-              className="bg-white p-4 shadow-lg rounded-lg border border-gray-300 flex mb-4 cursor-pointer"
+              className="bg-white p-5 shadow-md rounded-lg border border-gray-300 flex gap-4 mb-6 cursor-pointer hover:shadow-lg transition-shadow duration-300"
               onClick={() => handleHotelClick(hotel._id)}
             >
               <img
                 src={hotel.photos?.[0] || "https://via.placeholder.com/150"}
                 alt={hotel.name}
-                className="w-48 h-32 object-cover text-gray-600 rounded-md"
+                className="w-48 h-32 object-cover rounded-md border border-gray-300"
               />
-              <div className="ml-4">
-                <h2 className="text-lg text-gray-600 font-semibold">{hotel.name}</h2>
-                <p className="text-gray-600">{hotel.address}, {hotel.state}, {hotel.country}</p>
-                <p className="text-lg text-gray-600 font-bold">⭐ {hotel.rating || "N/A"}</p>
+              <div className="flex flex-col justify-between">
+                <h2 className="text-lg text-gray-700 font-bold font-mono">{hotel.name}</h2>
+                <p className="text-gray-600 font-mono">{hotel.address}, {hotel.state}, {hotel.country}</p>
+                <p className="text-lg text-yellow-500 font-bold">⭐ {hotel.rating || "N/A"}</p>
                 <p className="text-gray-500 italic">{hotel.title}</p>
                 <p className="text-gray-600">{hotel.description}</p>
                 <p className="text-blue-600 font-semibold">{hotel.offerings?.join(", ")}</p>
-                <p className="text-green-600 font-bold">Price: ${hotel.cheapestPrice}</p>
+                <p className="text-green-600 font-bold text-lg">Price: ${hotel.cheapestPrice}</p>
               </div>
             </div>
           ))
         ) : (
-          <p>No hotels found in {searchCity}.</p>
+          <p className="text-gray-600 font-mono text-center">No hotels found in {searchCity}.</p>
         )}
       </div>
     </div>
+
   );
 }
 

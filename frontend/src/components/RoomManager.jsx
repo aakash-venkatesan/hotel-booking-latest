@@ -136,101 +136,115 @@ const RoomManager = ({ hotelId }) => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Manage Room</h2>
-      <div className="mb-4 border p-4">
-        <div className="mb-2">
-          <label className="block mb-1">Room Title</label>
+    <div className="p-6 bg-white rounded-lg shadow-md border border-gray-300">
+      <h2 className="text-2xl font-mono font-bold text-gray-800 mb-4">Manage Room</h2>
+
+      <div className="mb-6 p-6 bg-gray-50 rounded-lg border border-gray-300 shadow-sm">
+        <div className="mb-4">
+          <label className="block font-mono font-semibold text-gray-700 mb-1">Room Title</label>
           <input
             type="text"
             name="title"
             value={room.title}
             onChange={handleRoomChange}
-            className="border p-2 w-full"
+            className="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
             required
           />
         </div>
-        <div className="mb-2">
-          <label className="block mb-1">Room Price</label>
+
+        <div className="mb-4">
+          <label className="block font-mono font-semibold text-gray-700 mb-1">Room Price</label>
           <input
             type="number"
             name="price"
             value={room.price}
             onChange={handleRoomChange}
-            className="border p-2 w-full"
+            className="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
             required
           />
         </div>
-        <div className="mb-2">
-          <label className="block mb-1">Discount</label>
+
+        <div className="mb-4">
+          <label className="block font-mono font-semibold text-gray-700 mb-1">Discount</label>
           <input
             type="number"
             name="discount"
             value={room.discount}
             onChange={handleRoomChange}
-            className="border p-2 w-full"
+            className="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
           />
         </div>
-        <div className="mb-2">
-          <label className="block mb-1">Max People</label>
+
+        <div className="mb-4">
+          <label className="block font-mono font-semibold text-gray-700 mb-1">Max People</label>
           <input
             type="number"
             name="maxPeople"
             value={room.maxPeople}
             onChange={handleRoomChange}
-            className="border p-2 w-full"
+            className="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
             required
           />
         </div>
-        <div className="mb-2">
-          <label className="block mb-1">Room Number</label>
+
+        <div className="mb-4">
+          <label className="block font-mono font-semibold text-gray-700 mb-1">Room Number</label>
           <input
             type="text"
             name="roomNumber"
-            value={room.roomNumbers[0].number} // Access the first room number
+            value={room.roomNumbers[0].number}
             onChange={handleRoomNumberChange}
-            className="border p-2 w-full"
+            className="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
             required
           />
         </div>
-        <div className="mb-2">
-          <label className="block mb-1">Description</label>
+
+        <div className="mb-4">
+          <label className="block font-mono font-semibold text-gray-700 mb-1">Description</label>
           <textarea
             name="desc"
             value={room.desc}
             onChange={handleRoomChange}
-            className="border p-2 w-full"
+            className="border border-gray-300 p-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
             required
           />
         </div>
-        <div className="mb-2">
-          <label className="block mb-1">Room Photos</label>
+
+        <div className="mb-6">
+          <label className="block font-mono font-semibold text-gray-700 mb-1">Room Photos</label>
           <input
             type="file"
             multiple
             onChange={handleImageSelect}
-            className="border p-2 w-full"
+            className="border border-gray-300 p-2 w-full rounded-lg cursor-pointer"
             required
           />
-          <div className="mt-2 flex">
+          <div className="mt-3 flex flex-wrap gap-3">
             {room.photos.map((photo, photoIndex) => (
-              <div key={photoIndex} className="relative mr-2">
-                <img src={photo} alt="Room" className="w-32 h-32 object-cover" />
+              <div key={photoIndex} className="relative w-24 h-24 border rounded-lg overflow-hidden">
+                <img src={photo} alt="Room" className="w-full h-full object-cover" />
                 <button
                   onClick={() => handleImageDelete(photoIndex)}
-                  className="absolute top-0 right-0 bg-red-500 text-white p-1"
+                  className="absolute top-1 right-1 bg-red-500 text-white text-xs p-1 rounded-lg shadow-md hover:bg-red-600 transition cursor-pointer"
                 >
-                  X
+                  ✖
                 </button>
               </div>
             ))}
           </div>
         </div>
-        <button onClick={handlePublish} className="bg-blue-500 text-white p-2">
+
+        <button
+          onClick={handlePublish}
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-mono font-bold py-2 rounded-lg transition cursor-pointer"
+        >
           Publish Room
         </button>
       </div>
     </div>
+
+
+
   );
 };
 

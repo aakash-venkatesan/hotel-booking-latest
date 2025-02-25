@@ -38,29 +38,49 @@ const HotelCard = ({ hotel }) => {
   };
 
   return (
-    <div className="p-4 mt-4 border-t">
-      <h2 className="text-xl font-bold mb-4">{hotel.name}</h2>
-      <p>{hotel.description}</p>
-      <p className="text-sm text-gray-600">{hotel.location}</p>
-      <h3 className="text-lg font-bold mt-4">Available Rooms</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="p-6 mt-6 border-t border-gray-300 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-mono font-bold text-gray-800">{hotel.name}</h2>
+      <p className="text-gray-600 mt-2">{hotel.description}</p>
+      <p className="text-sm text-blue-600 font-semibold">{hotel.location}</p>
+
+      <h3 className="text-xl font-mono font-bold text-gray-800 mt-6">Available Rooms</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         {rooms.map((room) => (
-          <div key={room._id} className="border p-4">
-            <h4 className="text-lg font-bold">Room {room.roomNumber}</h4>
-            <p>Type: {room.title}</p>
-            <p>Price: {room.price}</p>
-            <p>Occupancy: {room.maxPeople}</p>
+          <div
+            key={room._id}
+            className="bg-white border border-gray-300 rounded-lg shadow-md p-4 hover:shadow-lg transition"
+          >
+            <h4 className="text-lg font-bold text-gray-700">Room {room.roomNumber}</h4>
+            <p className="text-gray-600 text-sm">Type: <span className="font-semibold">{room.title}</span></p>
+            <p className="text-gray-600 text-sm">Price: <span className="font-semibold">${room.price}</span></p>
+            <p className="text-gray-600 text-sm">Occupancy: <span className="font-semibold">{room.maxPeople} People</span></p>
+
             {room.photos && room.photos.length > 0 && (
-              <img src={room.photos[0]} alt="Room" className="w-full h-32 object-cover mt-2" />
+              <img
+                src={room.photos[0]}
+                alt="Room"
+                className="w-full h-40 object-cover mt-3 rounded-lg"
+              />
             )}
           </div>
         ))}
       </div>
-      <button onClick={handleAddRoomsClick} className="bg-green-500 text-white p-2 mt-4">
+
+      <button
+        onClick={handleAddRoomsClick}
+        className="bg-green-500 hover:bg-green-600 text-white font-mono font-semibold px-4 py-2 rounded-lg mt-6 transition cursor-pointer"
+      >
         Add Rooms
       </button>
-      {showRoomManager && <RoomManager hotelId={hotel._id} />}
+
+      {showRoomManager && (
+        <div className="mt-6">
+          <RoomManager hotelId={hotel._id} />
+        </div>
+      )}
     </div>
+
+
   );
 };
 
