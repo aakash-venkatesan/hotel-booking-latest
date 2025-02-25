@@ -9,7 +9,7 @@ export const verifyUser = (req, res, next) => {
     }
   };
   
-// 📌 Verify Hotel Owner Middleware
+// Verify Hotel Owner Middleware
 // verifyToken middleware: extracts token and attaches user info to req.user
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
@@ -27,9 +27,7 @@ export const verifyToken = (req, res, next) => {
 };
 
 // verifyHotelOwner middleware: checks if the user is a hotel owner or admin
-
-
-// 📌 Verify Admin Middleware
+// Verify Admin Middleware
 export const verifyAdmin = async(req, res, next) => {
   const token = req.cookies.access_token;
   const user = await fetch(`http://localhost:5000/api/users/${req.user.id}`, {

@@ -193,7 +193,7 @@ const UserProfile = () => {
                                     <h3 className="text-lg font-mono font-semibold text-gray-700">{booking.hotelName}</h3>
                                     <p className="text-gray-600">{booking.roomType}</p>
                                     <p className="text-gray-500 italic">{booking.checkIn} to {booking.checkOut}</p>
-                                    <p className="text-green-600 font-bold">Price: ${booking.price}</p>
+                                    <p className="text-green-600 font-bold">Price: ${booking.totalPrice}</p>
                                 </div>
                             </div>
                         ))

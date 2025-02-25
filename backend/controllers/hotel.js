@@ -1,7 +1,7 @@
 import Hotel from "../models/Hotel.js";
 import { createError } from "../utils/error.js";
 
-// 📌 Create a Hotel
+// Create a Hotel
 export const createHotel = async (req, res, next) => {
   try {
     const newHotel = new Hotel(req.body);
@@ -12,7 +12,7 @@ export const createHotel = async (req, res, next) => {
   }
 };
 
-// 📌 Update Hotel
+// Update Hotel
 export const updateHotel = async (req, res, next) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -22,7 +22,7 @@ export const updateHotel = async (req, res, next) => {
   }
 };
 
-// 📌 Delete Hotel
+// Delete Hotel
 export const deleteHotel = async (req, res, next) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id);
@@ -32,7 +32,7 @@ export const deleteHotel = async (req, res, next) => {
   }
 };
 
-// 📌 Get Hotel by ID
+// Get Hotel by ID
 export const getHotel = async (req, res, next) => {
   try {
     const hotel = await Hotel.findById(req.params.id);
@@ -42,7 +42,7 @@ export const getHotel = async (req, res, next) => {
   }
 };
 
-// 📌 Get All Hotels with Filters, Search, Sorting, and Pagination
+// Get All Hotels with Filters, Search, Sorting, and Pagination
 export const getHotels = async (req, res, next) => {
   const { city, state, country, min, max, page = 1, limit = 100, sortBy = "cheapestPrice", order = "asc" } = req.query;
   

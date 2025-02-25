@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import { createError } from "../utils/error.js";
 
-// 📌 Update User
+// Update User
 export const updateUser = async (req, res, next) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -11,7 +11,7 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
-// 📌 Delete User
+// Delete User
 export const deleteUser = async (req, res, next) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -21,7 +21,7 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-// 📌 Get User Details
+// Get User Details
 export const getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
@@ -31,7 +31,7 @@ export const getUser = async (req, res, next) => {
   }
 };
 
-// 📌 Get All Users (Admin Only)
+// Get All Users (Admin Only)
 export const getUsers = async (req, res, next) => {
   try {
     const users = await User.find();

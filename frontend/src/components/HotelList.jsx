@@ -22,7 +22,7 @@ const HotelList = () => {
   }, []);
 
   const handleHotelClick = (hotelId) => {
-    navigate(`/hotel/${hotelId}`);
+    navigate(`/hotel-info/${hotelId}`);
   };
 
   return (

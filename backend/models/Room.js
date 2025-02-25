@@ -4,7 +4,7 @@ const RoomSchema = new mongoose.Schema(
   {
     title: { type: String },
     price: { type: Number },
-    discount: { type: Number}, // Added discount
+    discount: { type: Number}, 
     maxPeople: { type: Number },
     desc: { type: String },
     photos: { type: [String] },

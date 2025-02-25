@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { createError } from "../utils/error.js";
 import { config } from "../config/config.js";
 
-// 📌 Register a new user
+// Register a new user
 export const register = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync(10);
@@ -19,7 +19,7 @@ export const register = async (req, res, next) => {
   }
 };
 
-// 📌 User Login
+// User Login
 export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });

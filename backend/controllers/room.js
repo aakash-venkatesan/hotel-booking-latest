@@ -2,7 +2,7 @@ import Room from "../models/Room.js";
 import Hotel from "../models/Hotel.js";
 import { createError } from "../utils/error.js";
 
-// 📌 Create Room
+// Create Room
 export const createRoom = async (req, res, next) => {
   try {
     const hotel = await Hotel.findById(req.params.hotelid);
@@ -20,7 +20,7 @@ export const createRoom = async (req, res, next) => {
   }
 };
 
-// 📌 Update Room
+// Update Room
 export const updateRoom = async (req, res, next) => {
   try {
     const updatedRoom = await Room.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -30,7 +30,7 @@ export const updateRoom = async (req, res, next) => {
   }
 };
 
-// 📌 Delete Room
+// Delete Room
 export const deleteRoom = async (req, res, next) => {
   try {
     await Room.findByIdAndDelete(req.params.id);
@@ -40,7 +40,7 @@ export const deleteRoom = async (req, res, next) => {
   }
 };
 
-// 📌 Get Room by ID
+// Get Room by ID
 export const getRoom = async (req, res, next) => {
   try {
     const room = await Room.findById(req.params.id);
@@ -50,7 +50,7 @@ export const getRoom = async (req, res, next) => {
   }
 };
 
-// 📌 Get All Rooms with Filters, Search, and Sorting
+// Get All Rooms with Filters, Search, and Sorting
 export const getRooms = async (req, res, next) => {
   const { min, max, discount, maxPeople, page = 1, limit = 100, sortBy = "price", order = "asc" } = req.query;
 

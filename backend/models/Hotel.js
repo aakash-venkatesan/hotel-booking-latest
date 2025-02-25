@@ -6,13 +6,13 @@ const HotelSchema = new mongoose.Schema(
     type: { type: String },
     city: { type: String },
     address: { type: String},
-    state: { type: String }, // Added state
-    country: { type: String }, // Added country
-    code: { type: String }, // Added code
+    state: { type: String }, 
+    country: { type: String }, 
+    code: { type: String },
     distance: { type: String },
     photos: { type: [String] },
     title: { type: String},
-    description: { type: String }, // Renamed desc -> description
+    description: { type: String }, 
     rating: { type: Number, min: 0, max: 5 },
     rooms: [
       {
