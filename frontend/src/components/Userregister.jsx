@@ -166,7 +166,6 @@ const Userregister = () => {
               <option value="">Select User Type</option>
               <option value="guest">Guest</option>
               <option value="admin">Admin</option>
-              <option value="hotel_owner">Hotel Owner</option>
             </select>
           </div>
 
