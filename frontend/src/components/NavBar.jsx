@@ -1,27 +1,26 @@
 import { Search, SquarePen, Bell, CircleUserRound, House } from "lucide-react";
 import { Link } from 'react-router-dom';
 
-const NavBar = () => {
+const AdminNavBar = () => {
   return (
-    <div className="flex bg-blue-50 w-full">
-      <div className="flex w-100">
-        <h1 className="text-4xl font-bold m-4 mx-8">JHotels</h1>
+    <div className="flex bg-gray-100 w-full p-4 border-b border-gray-300">
+      <div className="flex w-full">
+        <h1 className="text-4xl font-bold mx-8 font-mono text-gray-700">JHotels</h1>
       </div>
-      <div className="flex justify-end w-full m-4 gap-5">
-        <Link to="/home">
-          <House className="mx-3 my-1" size={30} />
+      <div className="flex justify-end w-full gap-5">
+        <Link to="/hotel-list" className="flex items-center">
+          <House className="mx-3 text-blue-700 hover:text-blue-500 transition duration-300" size={30} />
         </Link>
-        <div className="flex">
-          <Link to="/hotel">
-            <SquarePen className="mx-3 my-1" size={30} />
-          </Link>
-        </div>
-        <Link to="/profile">
-          <CircleUserRound className="mx-3 my-1" size={30} />
+        <Link to="/hotel" className="flex items-center">
+          <SquarePen className="mx-3 text-blue-700 hover:text-blue-500 transition duration-300" size={30} />
+        </Link>
+        <Link to="/profile" className="flex items-center">
+          <CircleUserRound className="mx-3 text-blue-700 hover:text-blue-500 transition duration-300" size={30} />
         </Link>
       </div>
     </div>
+
   );
 };
 
-export default NavBar;
+export default AdminNavBar;

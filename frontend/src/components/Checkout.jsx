@@ -5,6 +5,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import axios from "axios";
 import { useParams } from "react-router-dom"; 
 import { useNavigate } from "react-router-dom";
+import UserNavBar from "./LoginNavbar";
 
 const Checkout = () => {
   const { hotelId, roomId } = useParams();
@@ -22,20 +23,10 @@ const Checkout = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  // const hotelId = "67bd554831433cbdcb94a49a";
-  // const roomId = "67bd4b7831433cbdcb94a48a";
   const userId = sessionStorage.getItem('userid');
-  //"67bc73c12bc809e3d15565c5"; // This can be retrieved dynamically if needed
+
   const bookingFees = 200;
 
-//  Get userId and token from localStorage
-//   const userId = localStorage.getItem("userId");  
-//   const token = localStorage.getItem("token");    
-
-//   // Get hotelId and roomId from query params
-//   const queryParams = new URLSearchParams(window.location.search);
-//   const hotelId = queryParams.get("hotelId");
-//   const roomId = queryParams.get("roomId");
 
   useEffect(() => {
       console.log("Hotel ID from URL:", hotelId, "Room Id:", roomId);
@@ -97,7 +88,19 @@ const Checkout = () => {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
-
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer);
+          navigate("/search-results");
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
   const calculateTotalPrice = (
     originalPrice,
     discount,
@@ -159,8 +162,7 @@ const Checkout = () => {
  
     if (walletAmount >= totalPrice) {
       try {
-        // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YmM3M2MxMmJjODA5ZTNkMTU1NjVjNSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE3NDA0ODg0NTAsImV4cCI6MTc0MDU3NDg1MH0.wlJWNfPeUXrNZA6jYwAFD9ZEeeCshsWnI5877bB6ho8"; // Replace with actual token
-        // Post booking data to backend with Authorization header
+        
         const response = await axios.post(
           "http://localhost:5000/api/bookings",
           {
@@ -214,124 +216,127 @@ const Checkout = () => {
   );
 
   return (
-    <div className="container mx-auto p-6 bg-blue-300 min-h-screen relative">
-      {/* Blurred Background when Modal is Open */}
-      {showModal && (
-        <div className="fixed inset-0 bg-opacity-50 backdrop-blur-sm z-40"></div>
-      )}
+    <>
+  <UserNavBar />
+  <div className="container mx-auto p-6 bg-gray-100 min-h-screen relative my-4">
+    {/* Blurred Background when Modal is Open */}
+    {showModal && <div className="fixed inset-0 bg-opacity-50 backdrop-blur-sm z-40"></div>}
 
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <p className="text-lg mb-4">{modalMessage}</p>
-            <button
-              onClick={() => setShowModal(false)}
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-            >
-              Close
-            </button>
-          </div>
+    {/* Modal */}
+    {showModal && (
+      <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full border border-gray-300">
+          <p className="text-lg mb-4 font-mono">{modalMessage}</p>
+          <button
+            onClick={() => setShowModal(false)}
+            className="bg-transparent text-blue-700 font-semibold border border-blue-500 hover:bg-blue-500 hover:text-white transition py-2 px-4 rounded-lg font-mono cursor-pointer"
+          >
+            Close
+          </button>
         </div>
-      )}
-
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300" onClick={() => navigate("/search-results")}>
-          {"<"}
-        </button>
-        <h1 className="text-3xl font-bold text-center flex-grow">Checkout</h1>
       </div>
+    )}
 
-      {/* Booking and Hotel Details */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Booking Details Card */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Booking Details</h2>
-          <div className="mb-4">
-            <p className="text-lg">Session Time Left: {formatTime(timeLeft)}</p>
-          </div>
-          <div className="mb-4">
-            <p className="text-lg">Select Onboarding Date:</p>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              className="border p-2 rounded w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <p className="text-lg">Select Off-boarding Date:</p>
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-              className="border p-2 rounded w-full"
-            />
-          </div>
-          <div className="mb-4">
-            <p className="text-lg">Enter Number of Nights:</p>
-            <input
-              type="number"
-              value={numberOfNights}
-              onChange={(e) => setNumberOfNights(Number(e.target.value))}
-              className="border p-2 rounded w-full"
-              min="1"
-            />
-          </div>
+    {/* Header */}
+    <div className="flex items-center justify-between mb-8">
+      <button
+        className="bg-transparent text-blue-700 font-semibold border border-blue-500 hover:bg-blue-500 hover:text-white transition py-2 px-4 rounded-lg font-mono cursor-pointer"
+        onClick={() => navigate("/search-results")}
+      >
+        {"<"}
+      </button>
+      <h1 className="text-3xl font-bold text-gray-700 text-center flex-grow font-mono">Checkout</h1>
+    </div>
+
+    {/* Booking and Hotel Details */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Booking Details Card */}
+      <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-300">
+        <h2 className="text-xl font-semibold mb-4 font-mono">Booking Details</h2>
+        <div className="mb-4">
+          <p className="text-lg font-mono">Session Time Left: {formatTime(timeLeft)}</p>
         </div>
-
-        {/* Hotel Details Card */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <div className="flex items-center justify-center mb-4">
-            <button
-              onClick={handlePrevImage}
-              className="bg-gray-200 p-2 rounded-l-lg hover:bg-gray-300 transition duration-300"
-            >
-              &lt;
-            </button>
-            <div className="w-96 h-64 mx-2 overflow-hidden rounded-lg">
-              {hotelDetails.photos && hotelDetails.photos.length > 0 ? (
-                <img
-                  src={roomDetails.photos[currentImageIndex]}
-                  alt="Room"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <p>No images available</p>
-              )}
-            </div>
-            <button
-              onClick={handleNextImage}
-              className="bg-gray-200 p-2 rounded-r-lg hover:bg-gray-300 transition duration-300"
-            >
-              &gt;
-            </button>
-          </div>
-          <p className="text-xl font-semibold">{hotelDetails.name}</p>
-          <p className="flex items-center">{renderStars(hotelDetails.rating)}</p>
-          <p className="text-gray-600">{hotelDetails.location}</p>
-          <div className="mt-4">
-            <p className="text-lg">Max: {roomDetails.maxPeople} Adults</p>
-            <p className="text-lg">
-              Price: ₹{roomDetails.price} per night
-            </p>
-            <p className="text-lg">Discount: {roomDetails.discount}%</p>
-            <p className="text-lg">Booking Fees: ₹{bookingFees}</p>
-            <p className="text-lg">GST (18%): ₹{(roomDetails.price * 0.18).toFixed(2)}</p>
-            <p className="text-xl font-semibold">Total Price: ₹{totalPrice}</p>
-          </div>
+        <div className="mb-4">
+          <p className="text-lg font-mono">Select Onboarding Date:</p>
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            className="border p-2 rounded w-full font-mono"
+          />
+        </div>
+        <div className="mb-4">
+          <p className="text-lg font-mono">Select Off-boarding Date:</p>
+          <DatePicker
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            className="border p-2 rounded w-full font-mono"
+          />
+        </div>
+        <div className="mb-4">
+          <p className="text-lg font-mono">Enter Number of Nights:</p>
+          <input
+            type="number"
+            value={numberOfNights}
+            onChange={(e) => setNumberOfNights(Number(e.target.value))}
+            className="border p-2 rounded w-full font-mono"
+            min="1"
+          />
         </div>
       </div>
 
-      {/* Book Now Button */}
-      <div className="mt-8 text-center">
-        <button
-          onClick={handleBookNow}
-          className="bg-blue-500 text-white py-3 px-8 rounded-full hover:bg-blue-600 transition duration-300"
-        >
-          Book Now
-        </button>
+      {/* Hotel Details Card */}
+      <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-300">
+        <div className="flex items-center justify-center mb-4">
+          <button
+            onClick={handlePrevImage}
+            className="bg-transparent border border-gray-400 p-2 rounded-l-lg hover:bg-gray-300 transition font-mono cursor-pointer"
+          >
+            &lt;
+          </button>
+          <div className="w-96 h-64 mx-2 overflow-hidden rounded-lg">
+            {hotelDetails.photos && hotelDetails.photos.length > 0 ? (
+              <img
+                src={roomDetails.photos[currentImageIndex]}
+                alt="Room"
+                className="w-full h-full object-cover rounded-lg"
+              />
+            ) : (
+              <p className="font-mono">No images available</p>
+            )}
+          </div>
+          <button
+            onClick={handleNextImage}
+            className="bg-transparent border border-gray-400 p-2 rounded-r-lg hover:bg-gray-300 transition font-mono cursor-pointer"
+          >
+            &gt;
+          </button>
+        </div>
+        <p className="text-xl font-semibold font-mono">{hotelDetails.name}</p>
+        <p className="flex items-center">{renderStars(hotelDetails.rating)}</p>
+        <p className="text-gray-600 font-mono">{hotelDetails.location}</p>
+        <div className="mt-4">
+          <p className="text-lg font-mono">Max: {roomDetails.maxPeople} Adults</p>
+          <p className="text-lg font-mono">Price: ₹{roomDetails.price} per night</p>
+          <p className="text-lg font-mono">Discount: {roomDetails.discount}%</p>
+          <p className="text-lg font-mono">Booking Fees: ₹{bookingFees}</p>
+          <p className="text-lg font-mono">GST (18%): ₹{(roomDetails.price * 0.18).toFixed(2)}</p>
+          <p className="text-xl font-semibold font-mono">Total Price: ₹{totalPrice}</p>
+        </div>
       </div>
     </div>
+
+    {/* Book Now Button */}
+    <div className="mt-8 text-center">
+      <button
+        onClick={handleBookNow}
+        className="bg-transparent text-blue-700 font-semibold border border-blue-500 hover:bg-blue-500 hover:text-white transition py-3 px-8 rounded-lg font-mono cursor-pointer"
+      >
+        Book Now
+      </button>
+    </div>
+  </div>
+</>
+
   );
 };
 

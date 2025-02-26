@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import LoginNavBar from './LoginNavBar';
 const Userregister = () => {
   const location = useLocation();
   const navigate = useNavigate();

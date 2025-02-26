@@ -5,7 +5,6 @@ import Userregister from "./components/Userregister";
 import UserProfile from "./components/UserProfile";
 import HomePage from "./components/HomePage.jsx";
 import HotelForm from "./components/HotelForm";
-import Review from "./components/Review";
 import HotelList from "./components/HotelList";
 import RoomManager from "./components/RoomManager.jsx";
 import SearchResults from "./components/SearchResults.jsx";
@@ -32,7 +31,6 @@ function App() {
           {/* Protected Routes (Require Login) */}
           <Route path="/profile" element={<ProtectedRoute element={<UserProfile />} />} />
           <Route path="/home" element={<ProtectedRoute element={<HomePage />} />} />
-          <Route path="/review" element={<ProtectedRoute element={<Review />} />} />
           <Route path="/search-results" element={<ProtectedRoute element={<SearchResults />} />} />
           <Route path="/hotel/:hotelId" element={<ProtectedRoute element={<HotelBookingPage />} />} />
           <Route path="/checkout/:roomId/:hotelId" element={<ProtectedRoute element={<Checkout />} />} />

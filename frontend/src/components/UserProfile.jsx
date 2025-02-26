@@ -77,6 +77,7 @@ const UserProfile = () => {
             console.error("Logout failed:", error);
         }
     };
+    console.log(bookings)
 
     if (loading) return <p className="text-center">Loading user data...</p>;
     if (error) return <p className="text-red-500 text-center">{error}</p>;
@@ -188,11 +189,10 @@ const UserProfile = () => {
                     {bookings.length > 0 ? (
                         bookings.map((booking) => (
                             <div key={booking.id} className="bg-white border border-gray-300 p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                                <img src={booking.image} alt={booking.hotelName} className="w-full h-40 object-cover rounded-md border border-gray-300" />
                                 <div className="mt-3 space-y-1">
                                     <h3 className="text-lg font-mono font-semibold text-gray-700">{booking.hotelName}</h3>
                                     <p className="text-gray-600">{booking.roomType}</p>
-                                    <p className="text-gray-500 italic">{booking.checkIn} to {booking.checkOut}</p>
+                                    <p className="text-gray-500 italic">{booking.startDate} to {booking.endDate}</p>
                                     <p className="text-green-600 font-bold">Price: ${booking.totalPrice}</p>
                                 </div>
                             </div>

@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:14
+FROM node:22
 
 # Set the working directory
 WORKDIR /app
@@ -13,14 +13,8 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Build the Vite app
-RUN npm run build
-
-# Install a simple HTTP server to serve static files
-RUN npm install -g serve
-
-# Expose port 3000
-EXPOSE 3000
+# Expose port 5173
+EXPOSE 5173
 
 # Start the server to serve the static files
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

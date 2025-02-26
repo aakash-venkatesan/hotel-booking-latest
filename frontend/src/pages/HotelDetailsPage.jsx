@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import RoomManager from '../components/RoomManager';
 import { useParams } from 'react-router-dom';
+import AdminNavBar from '../components/NavBar';
 
 const HotelDetailsPage = () => {
   const { hotelId } = useParams();
@@ -66,12 +67,15 @@ const HotelDetailsPage = () => {
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">{hotel.name}</h2>
-      <p>{hotel.description}</p>
-      <p className="text-sm text-gray-600">{hotel.location}</p>
-      <h3 className="text-lg font-bold mt-4">Available Rooms</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <>
+    <AdminNavBar />
+    <div className="p-6 bg-white rounded-lg shadow-md border border-gray-300">
+      <h2 className="text-2xl font-mono font-bold text-gray-800">{hotel.name}</h2>
+      <p className="text-gray-600 mt-2">{hotel.description}</p>
+      <p className="text-sm text-blue-600 font-semibold">{hotel.location}</p>
+  
+      <h3 className="text-xl font-mono font-bold text-gray-800 mt-6">Available Rooms</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
         {rooms.length > 0 ? (
           rooms.map((room) => (
             <RoomCard
@@ -85,14 +89,30 @@ const HotelDetailsPage = () => {
           <p>No rooms available.</p>
         )}
       </div>
-      <button onClick={handleAddRoomsClick} className="bg-green-500 text-white p-2 mt-4">
+  
+      <button
+        onClick={handleAddRoomsClick}
+        className="bg-green-500 hover:bg-green-600 text-white font-mono font-semibold px-4 py-2 rounded-lg mt-6 transition cursor-pointer"
+      >
         {showRoomManager ? 'Hide Room Manager' : 'Add Rooms'}
       </button>
-      {showRoomManager && <RoomManager hotelId={hotelId} onRoomAdded={fetchHotelDetails} />}
+  
+      {showRoomManager && (
+        <div className="mt-6">
+          <RoomManager hotelId={hotelId} onRoomAdded={fetchHotelDetails} />
+        </div>
+      )}
       {editingRoom && (
-        <EditRoomForm room={editingRoom} onUpdate={handleUpdateRoom} onCancel={() => setEditingRoom(null)} />
+        <EditRoomForm
+          room={editingRoom}
+          onUpdate={handleUpdateRoom}
+          onCancel={() => setEditingRoom(null)}
+        />
       )}
     </div>
+  </>
+  
+
   );
 };
 
@@ -110,39 +130,54 @@ const RoomCard = ({ room, onDelete, onEdit }) => {
   };
 
   return (
-    <div className="border p-4">
-      <h4 className="text-lg font-bold">Room {room.roomNumber}</h4>
-      <p>Type: {room.title}</p>
-      <p>Description: {room.desc}</p>
-      <p>Price: {room.price}</p>
-      <p>Occupancy: {room.maxPeople}</p>
-      <p>Discount: {room.discount}%</p>
-      {room.photos && room.photos.length > 0 && (
-        <div className="relative">
-          <img
-            src={room.photos[currentImageIndex]}
-            alt="Room"
-            className="w-full h-32 object-cover mt-2"
-          />
-          {room.photos.length > 1 && (
-            <div className="absolute top-0 left-0 right-0 flex justify-between">
-              <button onClick={handlePrevImage} className="bg-gray-500 text-white p-1">
-                &lt;
-              </button>
-              <button onClick={handleNextImage} className="bg-gray-500 text-white p-1">
-                &gt;
-              </button>
-            </div>
-          )}
+    <div className="border p-4 rounded-lg shadow-md bg-white">
+  <h4 className="text-lg font-bold text-gray-800">Room {room.roomNumber}</h4>
+  <p className="text-gray-600">Type: {room.title}</p>
+  <p className="text-gray-600">Description: {room.desc}</p>
+  <p className="text-gray-600">Price: {room.price}</p>
+  <p className="text-gray-600">Occupancy: {room.maxPeople}</p>
+  <p className="text-gray-600">Discount: {room.discount}%</p>
+  {room.photos && room.photos.length > 0 && (
+    <div className="relative mt-2">
+      <img
+        src={room.photos[currentImageIndex]}
+        alt="Room"
+        className="w-full h-32 object-cover rounded-md"
+      />
+      {room.photos.length > 1 && (
+        <div className="absolute top-0 left-0 right-0 flex justify-between">
+          <button
+            onClick={handlePrevImage}
+            className="bg-gray-500 text-white p-1 rounded-l-md hover:bg-gray-600 transition cursor-pointer"
+          >
+            &lt;
+          </button>
+          <button
+            onClick={handleNextImage}
+            className="bg-gray-500 text-white p-1 rounded-r-md hover:bg-gray-600 transition cursor-pointer"
+          >
+            &gt;
+          </button>
         </div>
       )}
-      <button onClick={onEdit} className="bg-blue-500 text-white p-2 mt-2">
-        Edit
-      </button>
-      <button onClick={onDelete} className="bg-red-500 text-white p-2 mt-2 ml-2">
-        Delete
-      </button>
     </div>
+  )}
+  <div className="mt-4">
+    <button
+      onClick={onEdit}
+      className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition cursor-pointer"
+    >
+      Edit
+    </button>
+    <button
+      onClick={onDelete}
+      className="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg ml-2 transition cursor-pointer"
+    >
+      Delete
+    </button>
+  </div>
+</div>
+
   );
 };
 
@@ -160,56 +195,67 @@ const EditRoomForm = ({ room, onUpdate, onCancel }) => {
   };
 
   return (
-    <div className="p-4 border mt-4">
-      <h3 className="text-lg font-bold mb-2">Edit Room</h3>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-2">
-          <label className="block mb-1">Room Title</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className="border p-2 w-full"
-          />
-        </div>
-        <div className="mb-2">
-          <label className="block mb-1">Price</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="border p-2 w-full"
-          />
-        </div>
-        <div className="mb-2">
-          <label className="block mb-1">Max People</label>
-          <input
-            type="number"
-            name="maxPeople"
-            value={formData.maxPeople}
-            onChange={handleChange}
-            className="border p-2 w-full"
-          />
-        </div>
-        <div className="mb-2">
-          <label className="block mb-1">Description</label>
-          <textarea
-            name="desc"
-            value={formData.desc}
-            onChange={handleChange}
-            className="border p-2 w-full"
-          />
-        </div>
-        <button type="submit" className="bg-blue-500 text-white p-2 mt-2">
-          Update
-        </button>
-        <button type="button" onClick={onCancel} className="bg-gray-500 text-white p-2 mt-2 ml-2">
-          Cancel
-        </button>
-      </form>
+    <div className="p-6 border mt-6 bg-white rounded-lg shadow-md">
+  <h3 className="text-xl font-mono font-bold mb-4 text-gray-800">Edit Room</h3>
+  <form onSubmit={handleSubmit}>
+    <div className="mb-4">
+      <label className="block text-sm font-semibold text-gray-700 mb-2">Room Title</label>
+      <input
+        type="text"
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        className="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
     </div>
+    <div className="mb-4">
+      <label className="block text-sm font-semibold text-gray-700 mb-2">Price</label>
+      <input
+        type="number"
+        name="price"
+        value={formData.price}
+        onChange={handleChange}
+        className="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+    <div className="mb-4">
+      <label className="block text-sm font-semibold text-gray-700 mb-2">Max People</label>
+      <input
+        type="number"
+        name="maxPeople"
+        value={formData.maxPeople}
+        onChange={handleChange}
+        className="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+    <div className="mb-4">
+      <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+      <textarea
+        name="desc"
+        value={formData.desc}
+        onChange={handleChange}
+        className="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        rows="4"
+      />
+    </div>
+    <div className="flex space-x-4">
+      <button
+        type="submit"
+        className="bg-blue-500 hover:bg-blue-600 text-white font-mono font-semibold px-4 py-2 rounded-lg transition cursor-pointer"
+      >
+        Update
+      </button>
+      <button
+        type="button"
+        onClick={onCancel}
+        className="bg-gray-500 hover:bg-gray-600 text-white font-mono font-semibold px-4 py-2 rounded-lg transition cursor-pointer"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+
   );
 };
 

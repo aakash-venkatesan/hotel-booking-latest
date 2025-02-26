@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import UserNavBar from "./LoginNavbar";
 
 const API_BASE_URL = "http://localhost:5000/api/hotels/";
 
@@ -78,7 +79,9 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 w-screen bg-gray-100">
+    <>
+    <UserNavBar/>
+    <div className="flex flex-col items-center p-6 w-screen bg-gray-100 ">
       <div className="bg-white shadow-lg p-6 rounded-lg w-full max-w-4xl border border-gray-300">
         <h2 className="text-2xl font-bold text-gray-700 font-mono text-center mb-4">Find Your Destination</h2>
         <div className="relative w-full">
@@ -111,12 +114,6 @@ const HomePage = () => {
         </button>
       </div>
       <div className="flex gap-4 mt-5 w-full max-w-4xl justify-center">
-        <button
-          onClick={() => navigate("/add-hotel")}
-          className="px-4 py-2 bg-transparent text-green-700 font-semibold border border-green-500 hover:bg-green-500 hover:text-white transition rounded-lg font-mono cursor-pointer"
-        >
-          Add Hotel
-        </button>
         <button
           onClick={() => navigate("/search-results?city=all")}
           className="px-4 py-2 bg-transparent text-blue-700 font-semibold border border-blue-500 hover:bg-blue-500 hover:text-white transition rounded-lg font-mono cursor-pointer"
@@ -166,7 +163,7 @@ const HomePage = () => {
         </div>
       </div>
     </div>
-
+    </>
 
 
   );

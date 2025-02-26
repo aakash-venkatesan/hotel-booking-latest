@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:14
+FROM node:22
 
 # Set the working directory
 WORKDIR /app
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5000
 
 # Start the application
-CMD ["node", "server.js"]
+CMD ["node", "index.js"]

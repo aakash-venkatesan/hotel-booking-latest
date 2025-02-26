@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { FormContext } from '../context/FormContext';
+import AdminNavBar from './NavBar';
 
 const BasicHotelInfo = ({ next }) => {
   const { formData, setFormData } = useContext(FormContext);
@@ -40,7 +41,9 @@ const BasicHotelInfo = ({ next }) => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <>
+    <AdminNavBar/>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 -mt-10">
       <div className="p-6 bg-white rounded-lg shadow-md max-w-lg w-full">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Basic Information</h2>
         <div className="mb-6">
@@ -94,6 +97,7 @@ const BasicHotelInfo = ({ next }) => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 

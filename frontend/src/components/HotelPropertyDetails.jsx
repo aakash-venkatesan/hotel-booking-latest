@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { FormContext } from '../context/FormContext';
 import axios from 'axios';
+import AdminNavBar from './NavBar';
 
 const HotelPropertyDetails = ({ prev }) => {
   const { formData, setFormData } = useContext(FormContext);
@@ -80,6 +81,8 @@ const HotelPropertyDetails = ({ prev }) => {
   };
 
   return (
+    <>
+    <AdminNavBar/>
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="p-6 bg-white rounded-lg shadow-md max-w-lg w-full">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Property Details</h2>
@@ -142,6 +145,7 @@ const HotelPropertyDetails = ({ prev }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

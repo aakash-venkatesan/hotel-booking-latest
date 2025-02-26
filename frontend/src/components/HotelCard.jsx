@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import RoomManager from './RoomManager';
+import AdminNavBar from './NavBar';
 
 const HotelCard = ({ hotel }) => {
   const [rooms, setRooms] = useState([]);
@@ -38,6 +39,8 @@ const HotelCard = ({ hotel }) => {
   };
 
   return (
+    <>
+    <AdminNavBar/>
     <div className="p-6 mt-6 border-t border-gray-300 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-mono font-bold text-gray-800">{hotel.name}</h2>
       <p className="text-gray-600 mt-2">{hotel.description}</p>
@@ -79,7 +82,7 @@ const HotelCard = ({ hotel }) => {
         </div>
       )}
     </div>
-
+    </>
 
   );
 };

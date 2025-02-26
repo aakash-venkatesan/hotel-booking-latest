@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import AdminNavBar from './NavBar';
 
 const HotelList = () => {
   const [hotels, setHotels] = useState([]);
@@ -26,7 +27,9 @@ const HotelList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50 flex justify-center items-center">
+    <>
+    <AdminNavBar/>
+    <div className="min-h-screen bg-blue-50 flex justify-center items-center ">
       <div className="p-6 bg-white rounded-lg shadow-md max-w-6xl w-full">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Available Hotels</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -46,6 +49,7 @@ const HotelList = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

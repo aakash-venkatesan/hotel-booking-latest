@@ -23,24 +23,6 @@ const Facilities = ({ hotelId, accessToken }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Uncomment to fetch data later
-    // const fetchFacilities = async () => {
-    //   try {
-    //     setLoading(true);
-    //     const response = await axios.get(`/api/hotels/${hotelId}/facilities`, {
-    //       headers: {
-    //         Authorization: `Bearer ${accessToken}`,
-    //       },
-    //     });
-    //     // Handle response data here...
-    //   } catch (err) {
-    //     setError("Failed to load facilities");
-    //     console.error("Error fetching facilities:", err);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // fetchFacilities();
   }, [hotelId, accessToken]);
 
   if (loading) {

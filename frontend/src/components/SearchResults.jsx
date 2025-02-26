@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import UserNavBar from "./LoginNavbar";
 
 const API_BASE_URL = "http://localhost:5000/api/hotels/";
-// const ACCESS_TOKEN = "your-access-token-here";
 
 function SearchResults() {
   const location = useLocation();
@@ -53,7 +53,9 @@ function SearchResults() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <>
+    <UserNavBar/>
+    <div className="flex h-screen bg-gray-100 ">
       <div className="w-1/4 p-6 bg-white border-r border-gray-300 h-full sticky top-0 shadow-md">
         <h2 className="text-xl font-bold mb-4 text-gray-700 font-mono">Filters</h2>
 
@@ -113,7 +115,7 @@ function SearchResults() {
         )}
       </div>
     </div>
-
+    </>
   );
 }
 
